@@ -13,6 +13,14 @@ if (process.env.NODE_ENV !== 'production') {
 
 const app = express()
 const port = 3000
+
+console.log('process.env.NODE_ENV', process.env.NODE_ENV)
+if (process.env.NODE_ENV !== 'production') {
+  console.log('here')
+  require('dotenv').config()
+}
+
+
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }) // 設定連線到 mongoDB
 
 
