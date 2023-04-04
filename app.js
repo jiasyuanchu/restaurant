@@ -67,6 +67,15 @@ app.post("/restaurants", (req, res) => {
     .catch(err => console.log(err))
 })
 
+//direct to specific details
+app.get('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .lean()
+    .then((restaurant) => res.render('detail', { restaurant }))
+    .catch(error => console.log(error))
+})
+
 
 //搜尋功能
 app.get("/search", (req, res) => {
