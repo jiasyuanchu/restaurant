@@ -76,6 +76,41 @@ app.get('/restaurants/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
+//direct to editing page
+app.get('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .lean()
+    .then((restaurant) => res.render('edit', { restaurant }))
+    .catch(error => console.log(error))
+})
+
+//receive editing results and transfer results to database
+app.post('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  const data = req.body
+  // modify restaurant, and save to data
+  return Restaurant.findById(id)
+    .then(restaurant => {
+      restaurant.name = data.name,
+        restaurant.name_en = data.name_en,
+        restaurant.category = data.category,
+        restaurant.image = data.image,
+        restaurant.location = data.location,
+        restaurant.phone = data.phone,
+        restaurant.google_map = data.google_map,
+        restaurant.rating = data.rating,
+        restaurant.description = data.description,
+        restaurant.save()
+    })
+    .then(() => {
+      res.redirect(`/restaurants/${id}/`)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+})
 
 //搜尋功能
 app.get("/search", (req, res) => {
