@@ -5,6 +5,7 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const restaurantList = require('./restaurant.json')
 const mongoose = require('mongoose') // 載入 mongoose
+const Restaurant = require('./models/restaurant') // 載入 restaurant model
 
 // 僅在非正式環境時使用 dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -44,8 +45,10 @@ app.use(express.static('public'))
 
 // routes setting
 app.get('/', (req, res) => {
-  //create a var to store restaurant
-  res.render('index', { restaurants: restaurantList.results });
+  Restaurant.find()
+    .lean()
+    .then(restaurants => res.render('index', { restaurants }))
+    .catch(error => console.error(error))
 })
 
 //搜尋功能

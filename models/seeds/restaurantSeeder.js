@@ -1,6 +1,6 @@
 const mongoose = require('mongoose') // 載入 mongoose
 const Restaurant = require('../restaurant')// 載入 restaurant model
-const restaurantList = require('../../restaurant.json')//載入現有餐廳資訊
+const restaurantList = require("../../restaurant.json").results
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 if (process.env.NODE_ENV !== 'production') {
@@ -24,10 +24,13 @@ db.on('error', () => {
   console.log('mongodb error!')
 })
 // 連線成功
-db.once('open', () => {
-  console.log('mongodb connected!')
-  for (let i = 0; i < 10; i++) {
-    Restaurant.create({ name: `name-${i}` })
-  }
-  console.log('done')
+db.once("open", () => {
+  console.log("running restaurantSeeder script...")
+
+  Restaurant.create(restaurantList)
+    .then(() => {
+      console.log("restaurantSeeder done!")
+      db.close()
+    })
+    .catch(err => console.log(err))
 })
