@@ -26,4 +26,8 @@ db.on('error', () => {
 // 連線成功
 db.once('open', () => {
   console.log('mongodb connected!')
+  for (let i = 0; i < 10; i++) {
+    Restaurant.create({ name: `name-${i}` })
+  }
+  console.log('done')
 })
