@@ -40,7 +40,10 @@
                 <div class="container mt-5">
                   <a href="/restaurants/{{this._id}}/edit"><button class="btn btn-link btn-sm">Edit</button></a>
                   <a href="/restaurants/{{this._id}}"><button class="btn btn-link btn-sm">Details</button></a>
-                  <button type="button" class="btn btn-outline-dark btn-sm">Delete</button>
+
+                  <form action="/restaurants/{{this._id}}/delete" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-outline-dark btn-sm">Delete</button>
+                  </form>
                 </div>
               </div>
             </div>
