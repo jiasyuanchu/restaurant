@@ -3,9 +3,11 @@
 const express = require('express')
 // require handlebars in the project
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
 const restaurantList = require('./restaurant.json')
 const mongoose = require('mongoose') // 載入 mongoose
 const Restaurant = require('./models/restaurant') // 載入 restaurant model
+
 
 // 僅在非正式環境時使用 dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -40,6 +42,8 @@ db.once('open', () => {
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
+app.use(bodyParser.urlencoded({ extended: true }))
+
 // setting static files
 app.use(express.static('public'))
 
@@ -50,6 +54,19 @@ app.get('/', (req, res) => {
     .then(restaurants => res.render('index', { restaurants }))
     .catch(error => console.error(error))
 })
+
+//add a new restaurant 
+app.get('/restaurants/new', (req, res) => {
+  return res.render('new')
+})
+
+//receive the results and transfer results to database
+app.post("/restaurants", (req, res) => {
+  Restaurant.create(req.body)
+    .then(() => res.redirect("/"))
+    .catch(err => console.log(err))
+})
+
 
 //搜尋功能
 app.get("/search", (req, res) => {
