@@ -5,9 +5,9 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+const routes = require('./routes')
 
 const restaurantList = require('./restaurant.json')
-const Restaurant = require('./models/restaurant') // 載入 restaurant model
 
 // 僅在非正式環境時使用 dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -47,126 +47,7 @@ app.use(methodOverride('_method'))
 
 // setting static files
 app.use(express.static('public'))
-
-// routes setting
-app.get('/', (req, res) => {
-  Restaurant.find()
-    .lean()
-    .then(restaurants => res.render('index', { restaurants }))
-    .catch(error => console.error(error))
-})
-
-//add a new restaurant 
-app.get('/restaurants/new', (req, res) => {
-  return res.render('new')
-})
-
-//receive the results and transfer results to database
-app.post("/restaurants", (req, res) => {
-  Restaurant.create(req.body)
-    .then(() => res.redirect("/"))
-    .catch(err => console.log(err))
-})
-
-//direct to specific details
-app.get('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .lean()
-    .then((restaurant) => res.render('detail', { restaurant }))
-    .catch(error => console.log(error))
-})
-
-//direct to editing page
-app.get('/restaurants/:id/edit', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .lean()
-    .then((restaurant) => res.render('edit', { restaurant }))
-    .catch(error => console.log(error))
-})
-
-//receive editing results and transfer results to database
-app.put('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  const data = req.body
-  // modify restaurant, and save to data
-  return Restaurant.findById(id)
-    .then(restaurant => {
-      restaurant.name = data.name,
-        restaurant.name_en = data.name_en,
-        restaurant.category = data.category,
-        restaurant.image = data.image,
-        restaurant.location = data.location,
-        restaurant.phone = data.phone,
-        restaurant.google_map = data.google_map,
-        restaurant.rating = data.rating,
-        restaurant.description = data.description,
-        restaurant.save()
-    })
-    .then(() => {
-      res.redirect(`/restaurants/${id}/`)
-    })
-    .catch(error => {
-      console.log(error)
-    })
-
-})
-
-//delete function
-app.delete('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .then(restaurant => restaurant.remove())
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
-})
-
-//搜尋功能
-app.get("/search", (req, res) => {
-  const keyword = req.query.keyword.trim().toLowerCase();
-  const restaurants = restaurantList.results.filter(
-    (restaurant) =>
-      restaurant.name.toLowerCase().includes(keyword) ||
-      restaurant.category.includes(keyword)
-  );
-
-  if (restaurants.length) {
-    //如果有搜尋結果，執行以下
-    res.render("index", { restaurants: restaurants, keyword: keyword });
-  } else {
-    return
-  }
-});
-
-
-//搜尋結果的route
-app.get("/search", (req, res) => {
-  const keyword = req.query.keyword.trim().toLowerCase();
-  const restaurants = restaurantList.results.filter(
-    (restaurant) =>
-      restaurant.name.toLowerCase().includes(keyword) ||
-      restaurant.category.includes(keyword)
-  );
-
-  if (restaurants.length) {
-    //如果有搜尋結果，執行以下
-    res.render("index", { restaurants: restaurants, keyword: keyword });
-  } else {
-    return
-  }
-});
-
-
-app.get('/restaurants/:restaurant_id', (req, res) => {
-  const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
-  res.render('show', { restaurant: restaurant })
-})
-
-app.get('/popular/languages/:language', (req, res) => {
-  console.log('request', req)
-  res.send('<h1>Node.js is a popular language</h1>')
-})
+app.use(routes) // 將 request 導入路由器
 
 // start and listen on the Express server
 app.listen(port, () => {
