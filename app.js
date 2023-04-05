@@ -1,13 +1,13 @@
 // app.js
 // require packages used in the project
 const express = require('express')
-// require handlebars in the project
+const mongoose = require('mongoose') 
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
-const restaurantList = require('./restaurant.json')
-const mongoose = require('mongoose') // 載入 mongoose
-const Restaurant = require('./models/restaurant') // 載入 restaurant model
+const methodOverride = require('method-override')
 
+const restaurantList = require('./restaurant.json')
+const Restaurant = require('./models/restaurant') // 載入 restaurant model
 
 // 僅在非正式環境時使用 dotenv
 if (process.env.NODE_ENV !== 'production') {
@@ -43,6 +43,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 // setting static files
 app.use(express.static('public'))
@@ -86,7 +87,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
 })
 
 //receive editing results and transfer results to database
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id', (req, res) => {
   const id = req.params.id
   const data = req.body
   // modify restaurant, and save to data
@@ -113,7 +114,7 @@ app.post('/restaurants/:id/edit', (req, res) => {
 })
 
 //delete function
-app.post('/restaurants/:id/delete', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
     .then(restaurant => restaurant.remove())

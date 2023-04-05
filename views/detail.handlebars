@@ -42,7 +42,7 @@
     <a href="/restaurants/{{restaurant._id}}/edit"><button class="btn btn-primary ">修改資料</button></a>
   </dir>
 
-  <form action="/restaurants/{{restaurant._id}}/delete" method="POST" style="display: inline;">
+  <form action="/restaurants/{{restaurant._id}}?_method=DELETE" method="POST" style="display: inline;">
     <button type="submit" class="btn btn-danger ">刪除資料</button>
   </form>
 
