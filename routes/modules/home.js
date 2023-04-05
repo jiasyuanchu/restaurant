@@ -13,40 +13,39 @@ router.get('/', (req, res) => {
     .catch(error => console.error(error))
 })
 
-//搜尋功能
-router.get("/search", (req, res) => {
-  const keyword = req.query.keyword.trim().toLowerCase();
+// 搜尋功能
+router.get('/search', (req, res) => {
+  const keyword = req.query.keyword.trim().toLowerCase()
   const restaurants = restaurantList.results.filter(
     (restaurant) =>
       restaurant.name.toLowerCase().includes(keyword) ||
       restaurant.category.includes(keyword)
-  );
+  )
 
   if (restaurants.length) {
-    //如果有搜尋結果，執行以下
-    res.render("index", { restaurants: restaurants, keyword: keyword });
+    // 如果有搜尋結果，執行以下
+    res.render('index', { restaurants, keyword })
   } else {
-    return
+
   }
-});
+})
 
-
-//搜尋結果的route
-router.get("/search", (req, res) => {
-  const keyword = req.query.keyword.trim().toLowerCase();
+// 搜尋結果的route
+router.get('/search', (req, res) => {
+  const keyword = req.query.keyword.trim().toLowerCase()
   const restaurants = restaurantList.results.filter(
     (restaurant) =>
       restaurant.name.toLowerCase().includes(keyword) ||
       restaurant.category.includes(keyword)
-  );
+  )
 
   if (restaurants.length) {
-    //如果有搜尋結果，執行以下
-    res.render("index", { restaurants: restaurants, keyword: keyword });
+    // 如果有搜尋結果，執行以下
+    res.render('index', { restaurants, keyword })
   } else {
-    return
+
   }
-});
+})
 
 // 匯出路由模組
 module.exports = router

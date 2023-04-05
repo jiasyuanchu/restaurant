@@ -4,20 +4,19 @@ const router = express.Router()
 
 const Restaurant = require('../../models/restaurant') // 載入 restaurant model
 
-
-//add a new restaurant 
+// add a new restaurant
 router.get('/restaurants/new', (req, res) => {
   return res.render('new')
 })
 
-//receive the results and transfer results to database
-router.post("/restaurants", (req, res) => {
+// receive the results and transfer results to database
+router.post('/restaurants', (req, res) => {
   Restaurant.create(req.body)
-    .then(() => res.redirect("/"))
+    .then(() => res.redirect('/'))
     .catch(err => console.log(err))
 })
 
-//direct to specific details
+// direct to specific details
 router.get('/restaurants/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
@@ -26,7 +25,7 @@ router.get('/restaurants/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
-//direct to editing page
+// direct to editing page
 router.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
@@ -35,7 +34,7 @@ router.get('/restaurants/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-//receive editing results and transfer results to database
+// receive editing results and transfer results to database
 router.put('/restaurants/:id', (req, res) => {
   const id = req.params.id
   const data = req.body
@@ -43,15 +42,15 @@ router.put('/restaurants/:id', (req, res) => {
   return Restaurant.findById(id)
     .then(restaurant => {
       restaurant.name = data.name,
-        restaurant.name_en = data.name_en,
-        restaurant.category = data.category,
-        restaurant.image = data.image,
-        restaurant.location = data.location,
-        restaurant.phone = data.phone,
-        restaurant.google_map = data.google_map,
-        restaurant.rating = data.rating,
-        restaurant.description = data.description,
-        restaurant.save()
+      restaurant.name_en = data.name_en,
+      restaurant.category = data.category,
+      restaurant.image = data.image,
+      restaurant.location = data.location,
+      restaurant.phone = data.phone,
+      restaurant.google_map = data.google_map,
+      restaurant.rating = data.rating,
+      restaurant.description = data.description,
+      restaurant.save()
     })
     .then(() => {
       res.redirect(`/restaurants/${id}/`)
@@ -59,10 +58,9 @@ router.put('/restaurants/:id', (req, res) => {
     .catch(error => {
       console.log(error)
     })
-
 })
 
-//delete function
+// delete function
 router.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
@@ -71,12 +69,10 @@ router.delete('/restaurants/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
-
 router.get('/restaurants/:restaurant_id', (req, res) => {
   const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
-  res.render('show', { restaurant: restaurant })
+  res.render('show', { restaurant })
 })
-
 
 // 匯出路由模組
 module.exports = router
