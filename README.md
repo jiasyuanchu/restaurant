@@ -1,10 +1,10 @@
 我的餐廳清單
 
-https://pasteboard.co/50XmLE9VY7x6.jpg
+https://pasteboard.co/H9TtNvgsTmyX.jpg 
 
 #介紹
 
-紀錄屬於自己的餐廳清單，可以瀏覽餐廳、查看詳細資訊、甚至連結到地圖。
+紀錄屬於自己的餐廳清單，可以瀏覽餐廳及查看詳細資訊。
 
 #功能
 
