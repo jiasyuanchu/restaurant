@@ -10,5 +10,11 @@ db.once('open', () => {
       console.log('restaurantSeeder done!')
       db.close()
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err)
+      res.render(
+        'errorPage',
+        { error: error.message }
+      )
+    })
 })
