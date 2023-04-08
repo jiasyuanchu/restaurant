@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 // 搜尋功能
 router.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
-  const restaurants = restaurantList.results.filter(
+  const restaurants = Restaurant.filter(
     (restaurant) =>
       restaurant.name.toLowerCase().includes(keyword) ||
       restaurant.category.includes(keyword)
@@ -33,7 +33,7 @@ router.get('/search', (req, res) => {
 // 搜尋結果的route
 router.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
-  const restaurants = restaurantList.results.filter(
+  const restaurants = Restaurant.filter(
     (restaurant) =>
       restaurant.name.toLowerCase().includes(keyword) ||
       restaurant.category.includes(keyword)
