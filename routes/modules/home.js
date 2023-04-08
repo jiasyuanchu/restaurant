@@ -15,6 +15,8 @@ router.get('/', (req, res) => {
 
 // 搜尋功能
 router.get('/search', (req, res) => {
+  const sort = req.query.sort;
+  console.log(sort);
   const keyword = req.query.keyword.trim().toLowerCase()
   Restaurant.find()
     .lean()
