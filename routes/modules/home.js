@@ -16,35 +16,23 @@ router.get('/', (req, res) => {
 // 搜尋功能
 router.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
-  const restaurants = Restaurant.filter(
-    (restaurant) =>
-      restaurant.name.toLowerCase().includes(keyword) ||
-      restaurant.category.includes(keyword)
-  )
+  Restaurant.find()
+    .lean()
+    .then(restaurants => {
+      const filteredRestaurants = restaurants.filter(
+        (restaurant) =>
+          restaurant.name.toLowerCase().includes(keyword) ||
+          restaurant.category.includes(keyword)
+      )
 
-  if (restaurants.length) {
+      if (filteredRestaurants.length) {
     // 如果有搜尋結果，執行以下
-    res.render('index', { restaurants, keyword })
+        res.render('index', { restaurants: filteredRestaurants, keyword })
   } else {
-
+    res.render('index', { keyword, errorMsg: `您搜尋的關鍵字：${keyword}，沒有符合條件的餐廳` })
   }
 })
-
-// 搜尋結果的route
-router.get('/search', (req, res) => {
-  const keyword = req.query.keyword.trim().toLowerCase()
-  const restaurants = Restaurant.filter(
-    (restaurant) =>
-      restaurant.name.toLowerCase().includes(keyword) ||
-      restaurant.category.includes(keyword)
-  )
-
-  if (restaurants.length) {
-    // 如果有搜尋結果，執行以下
-    res.render('index', { restaurants, keyword })
-  } else {
-
-  }
+    .catch(error => console.error(error))
 })
 
 // 匯出路由模組
