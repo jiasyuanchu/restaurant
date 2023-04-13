@@ -11,11 +11,11 @@
             <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search">搜尋</i></button>
           </div>
         </div>
-      </form>
 
       <div class="col-4">
         <div class="input-group">
           <span class="input-group-text" style="background-color: #9b4b4b; color: white;">排序依</span>
+    
           <select class="form-select" type="submit" name="sort" id="sort">
             <option {{#if sortMethod}}{{sortMethod}}{{else}}Sort{{/if}} value="nameasc" selected>A to Z</option>
             <option value="namedesc">Z to A</option>
@@ -24,6 +24,7 @@
         </div>
         </select>
       </div>
+   </form>
 
     </div>
     <a href="/restaurants/new"><button class="btn btn-primary mb-2">新增餐廳</button></a>

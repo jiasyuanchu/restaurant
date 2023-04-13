@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     return res.redirect('/')
   }
   else {
-    console.log(req.query)
+    console.log(req.query.sort)
     const keyword = req.query.keyword.trim().toLowerCase()
     const sortMethod = req.query.sort
     let sortKeyword = { name: 'asc' }
