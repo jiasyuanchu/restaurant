@@ -13,7 +13,16 @@ const restaurantList = require('./restaurant.json')
 const app = express()
 const port = 3000
 
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
+app.engine('handlebars', exphbs({ 
+  defaultLayout: 'main',
+  helpers: {
+    select: function(selected, options) {
+    return options.fn(this).replace(
+      new RegExp(' value=\"' + selected + '\"'),
+      '$& selected="selected"');
+    }
+  }
+}))
 app.set('view engine', 'handlebars')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))

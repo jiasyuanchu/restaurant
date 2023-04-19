@@ -6,7 +6,7 @@ const Restaurant = require('../../models/restaurant')
 
 
 // search router
-router.get('/search', (req, res) => {
+router.get('/', (req, res) => {
 
   // 依關鍵字篩選餐廳，若無則顯示無符合資料
   console.log(req.query.keyword)
@@ -44,7 +44,7 @@ router.get('/search', (req, res) => {
       res.render('index', {
         restaurants: filteredRestaurants,
         keyword,
-        sort,
+        currentSort: sort,
       });
     })
 })
