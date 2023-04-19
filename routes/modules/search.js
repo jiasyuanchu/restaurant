@@ -1,41 +1,53 @@
 const express = require('express')
 const router = express.Router()
+
+//載入餐廳清單
 const Restaurant = require('../../models/restaurant')
 
 
-// search
-router.get('/', (req, res) => {
-  if (!req.query.keyword) {
-    return res.redirect('/')
+// search router
+router.get('/search', (req, res) => {
+
+  // 依關鍵字篩選餐廳，若無則顯示無符合資料
+  console.log(req.query.keyword)
+
+  const keyword = req.query.keyword.trim();
+  const sort = req.query.sort;
+
+  //未選擇的話直接回傳初始頁面
+  if (!keyword && sort === '1') {
+    return res.redirect('/');
   }
-  else {
-    console.log(req.query.sort)
-    const keyword = req.query.keyword.trim().toLowerCase()
-    const sortMethod = req.query.sort
-    let sortKeyword = { name: 'asc' }
-    if (sortMethod === 'Z > A')
-      sortKeyword = { name: 'desc' }
-    if (sortMethod === '類別')
-      sortKeyword = { category: 'asc' }
-    if (sortMethod === '地區')
-      sortKeyword = { location: 'asc' }
+
+  let option;
+
+  switch (sort) {
+    case '1':
+      option = { name: 1 } //依照name升冪排列
+      break;
+    case '2':
+      option = { name: -1 } //依照name降冪排列
+      break;
+    case '3':
+      option = { category: 1 } //依照category升冪排列
+      break;
+    case '4':
+      option = { location: 1 }//依照location升冪排列
+      break;
   }
-  return Restaurant.find({})
-    .lean()
-    .sort(sortKeyword)
-    .then(restaurantsData => {
-      const results = restaurantsData.filter(
-        data =>
-          data.name.toLowerCase().includes(keyword) ||
-          data.category.includes(keyword) ||
-          data.name_en.toLowerCase().includes(keyword)
-      )
-      res.render('index', { restaurantsData: results, keyword, sortMethod })
-    })
-    .catch(err => {
-      console.log(err)
-      res.render('errorPage', { error: err.message })
+
+  Restaurant.find().sort(option).lean()
+    .then(restaurants => {
+      const filteredRestaurants = restaurants.filter(
+        (item) => item.name.toLowerCase().includes(keyword.toLowerCase()));
+
+      res.render('index', {
+        restaurants: filteredRestaurants,
+        keyword,
+        sort,
+      });
     })
 })
+
 
 module.exports = router
