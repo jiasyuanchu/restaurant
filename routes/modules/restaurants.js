@@ -5,12 +5,12 @@ const router = express.Router()
 const Restaurant = require('../../models/restaurant') // 載入 restaurant model
 
 // add a new restaurant
-router.get('/restaurants/new', (req, res) => {
+router.get('/new', (req, res) => {
   return res.render('new')
 })
 
 // receive the results and transfer results to database
-router.post('/restaurants', (req, res) => {
+router.post('/', (req, res) => {
   Restaurant.create(req.body)
     .then(thisNewRestaurant => {
       res.render('detail', { thisNewRestaurant });
@@ -19,7 +19,7 @@ router.post('/restaurants', (req, res) => {
     });
 
 // direct to specific details
-router.get('/restaurants/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
     .lean()
@@ -28,7 +28,7 @@ router.get('/restaurants/:id', (req, res) => {
 })
 
 // direct to editing page
-router.get('/restaurants/:id/edit', (req, res) => {
+router.get('/:id/edit', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
     .lean()
@@ -37,7 +37,7 @@ router.get('/restaurants/:id/edit', (req, res) => {
 })
 
 // receive editing results and transfer results to database
-router.put('/restaurants/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   //use the object assign 
   const { id } = req.params
   Restaurant.findByIdAndUpdate(id, req.body)
@@ -69,7 +69,7 @@ router.put('/restaurants/:id', (req, res) => {
 })
 
 // delete function
-router.delete('/restaurants/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
     .then(restaurant => restaurant.remove())
@@ -77,7 +77,7 @@ router.delete('/restaurants/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
-router.get('/restaurants/:restaurant_id', (req, res) => {
+router.get('/:restaurant_id', (req, res) => {
   const { restaurant_id } = req.params
   //search in "restaurant"(in db) by ID
   Restaurant.findById(restaurant_id)

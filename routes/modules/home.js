@@ -28,12 +28,12 @@ router.get('/search', (req, res) => {
       )
 
       if (filteredRestaurants.length) {
-    // 如果有搜尋結果，執行以下
+        // 如果有搜尋結果，執行以下
         res.render('index', { restaurants: filteredRestaurants, keyword })
-  } else {
-    res.render('index', { keyword, errorMsg: `您搜尋的關鍵字：${keyword}，沒有符合條件的餐廳` })
-  }
-})
+      } else {
+        res.render('index', { keyword, errorMsg: `您搜尋的關鍵字：${keyword}，沒有符合條件的餐廳` })
+      }
+    })
     .catch(error => console.error(error))
 })
 
