@@ -4,7 +4,7 @@
 
 ## 介紹
 
-##### 紀錄屬於自己的餐廳清單，可以瀏覽餐廳及查看詳細資訊。
+##### 紀錄屬於自己的餐廳清單，使用者可以登入自己的帳戶，瀏覽餐廳、新增及查看最愛的餐廳詳細資訊。
 
 ## 功能
 
@@ -14,6 +14,9 @@
 - 新增餐廳 
 - 編輯餐廳 
 - 刪除餐廳
+- 依照不同方式排序餐廳
+- 註冊帳號，登入，登出
+- 可以用 Facebook Login
 
 ## 開始使用 
 
@@ -35,10 +38,18 @@ npm run start
 ```javascript
 Listening on http://localhost:3000
 ```
-7. 暫停使用
+
+7. 製作種子資料 (會做出2個dummy帳號，裡面各有3筆dummy data)
+```javascript
+npm run seed
+```
+
+8. 暫停使用
 ```javascript
 ctrl + c
 ```
+
+9. 製作 .env檔案，可以參考 .env.example
 
 
 ## 開發工具
@@ -49,3 +60,10 @@ ctrl + c
 - Bootstrap v5.1.3
 - MongoDB
 - mongoose 6.0.5
+- bcryptjs": "^2.4.3",
+- connect-flash": "^0.1.1",
+- express-session": "^1.17.3",
+- method-override": "^3.0.0",
+- passport": "^0.6.0",
+- passport-facebook": "^3.0.0",
+- passport-local": "^1.0.0"
