@@ -4,10 +4,14 @@ const router = express.Router()// 準備引入路由模組
 const home = require('./modules/home')// 引入 home 模組程式碼
 const search = require('./modules/search')// 引入 home 模組程式碼
 const restaurants = require('./modules/restaurants') // 載入 restaurant model
+const users = require('./modules/users') 
+
 
 router.use('/', home)// 將網址結構符合 / 字串的 request 導向 home 模組
 router.use('/search', search)// 將網址結構符合 / 字串的 request 導向 home 模組
 router.use('/restaurants', restaurants)
+router.use('/users', users) 
+
 
 // 匯出路由器
 module.exports = router
