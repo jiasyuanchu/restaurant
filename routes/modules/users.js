@@ -7,11 +7,21 @@ const bcrypt = require('bcryptjs')
 router.get('/login', (req, res) => {
   res.render('login')
 })
-// 加入 middleware，驗證 request 登入狀態
-router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/users/login'
-}))
+
+
+router.post('/login', (req, res, next) => {
+  const { email, password } = req.body
+  if (!email || !password) {
+    res.locals.warning_msg = 'Email跟Password均為必填。'
+    return res.render('login', { email })
+  }
+  next()
+}, // 加入 middleware，驗證 request 登入狀態
+  passport.authenticate('local', { 
+    successRedirect: '/',
+    failureRedirect: '/user/login'
+  })
+)
 
 router.get('/register', (req, res) => {
   res.render('register')
