@@ -31,8 +31,8 @@ router.post('/register', (req, res) => {
   // 取得註冊表單參數
   const { name, email, password, confirmPassword } = req.body
   const errors = []
-  if (!name || !email || !password || !confirmPassword) {
-    errors.push({ message: '所有欄位都是必填。' })
+  if ( !email || !password || !confirmPassword) {
+    errors.push({ message: '除了Name以外都是必填。' })
   }
   if (password !== confirmPassword) {
     errors.push({ message: '密碼與確認密碼不相符！' })
@@ -58,7 +58,8 @@ router.post('/register', (req, res) => {
         password,
         confirmPassword
       })
-    }
+    }    
+    
     return bcrypt
       .genSalt(10) // 產生「鹽」，並設定複雜度係數為 10
       .then(salt => bcrypt.hash(password, salt)) // 為使用者密碼「加鹽」，產生雜湊值
