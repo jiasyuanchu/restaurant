@@ -6,7 +6,6 @@ const User = require('../user')
 const Restaurant = require('../restaurant')
 const bcrypt = require('bcryptjs')
 
-// 種子資料
 const restaurantList = require('../../restaurant.json').results
 const SEED_USER = [
   {
